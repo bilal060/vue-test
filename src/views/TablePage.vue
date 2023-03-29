@@ -1,6 +1,14 @@
 <template>
   <div class="rounded tablepage bg-white px-3 py-4">
-    <h2>Table Page</h2>
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Table Page</h2>
+        <router-link to="/chartpage" class="route-style text-dark font-20 ">
+          <!-- <i class="fa-solid fa-table"></i> -->
+          <i class="fa-solid fa-chart-simple"></i>
+        </router-link>
+      </div>
+    </div>
 
     <!-- <h3 v-if="catcherror">{{ catcherror }}</h3>
     <v-data-table hide-default-footer :headers="data.heading" :items="data.details" class="elevation-1">

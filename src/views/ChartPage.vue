@@ -1,7 +1,13 @@
 <template>
   <div class="chartpage rounded bg-white px-3 py-4">
     <div class="mb-3">
-      <h2>Chart Page</h2>
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Chart Page</h2>
+        <router-link to="/tablepage" class="route-style text-dark font-20 ">
+          <i class="fa-solid fa-table"></i>
+        </router-link>
+
+      </div>
     </div>
     <apexchart type="bar" height="350" :options="barlinechartOptions" :series="barlineseries"></apexchart>
   </div>
