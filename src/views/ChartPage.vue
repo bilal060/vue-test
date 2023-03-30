@@ -14,38 +14,18 @@
 </template>
 
 <script>
+import axios from 'axios'
 import VueApexCharts from 'vue-apexcharts'
 export default {
   name: 'AthenaReview2',
   components: {
     apexchart: VueApexCharts,
   },
+
   data: () => ({
 
-    barlineseries: [
-
-      {
-        name: 'US',
-        type: 'column',
-        data: [120000, 130000, 90000]
-      }, {
-        name: 'PAK',
-        type: 'column',
-        data: [130000, 150000, 90000]
-      }, {
-        name: 'AUS',
-        type: 'column',
-        data: [150000, 110000, 90000]
-      }, {
-        name: 'UAE',
-        type: 'column',
-        data: [130000, 150000, 20000]
-      },
-
-
-
-
-    ],
+    data: [],
+    barlineseries: [],
     barlinechartOptions: {
       colors: ["#444444", "#FF7EEF", "#446AAA", "#873BD3", "#5BB878"],
 
@@ -70,6 +50,48 @@ export default {
       }
     },
   }),
+  created() {
+    this.getPost()
+  },
+
+  methods: {
+    async getPost() {
+      try {
+        const options = {
+          headers: { "content-type": "application/json" }
+        }
+        const response = await axios.get(
+          "https://9e34429a-eba3-4e56-85f2-685706a08897.mock.pstmn.io/report/dau?dashboardUserId=abc123&periodFrom=1669852800&periodTo=1674063742&aggregateBy%5B0%5D=month&aggregateBy%5B1%5D=country", options);
+
+        let newData = response.data;
+        const data = newData.replace(`}
+        {`, '},{')
+        // console.log(newData)
+        console.log(JSON.parse(data))
+        this.data = JSON.parse(data);
+        console.log(this.data?.items.map((val) => {
+          return {
+
+            name: val.country,
+            type: 'column',
+            data: val.count
+
+          }
+        }))
+        this.barlineseries = this.data?.items.map((val) => {
+          return {
+
+            name: val.country,
+            type: 'column',
+            data: [val.count]
+
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 }
 </script>
 <style scoped>
